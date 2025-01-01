@@ -24,9 +24,7 @@ from pyrogram.errors import (ChatAdminRequired,
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatType, ChatMemberStatus
 from pytgcalls import PyTgCalls, StreamType
-from pytgcalls.exceptions import (AlreadyJoinedError,
-                                  NoActiveGroupCall,
-                                  TelegramServerError)
+from pytgcalls.exceptions import (NoActiveGroupCall,TelegramServerError,AlreadyJoinedError)
 from pytgcalls.types import (JoinedGroupCallParticipant,
                              LeftGroupCallParticipant, Update)
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
@@ -36,12 +34,15 @@ from config import *
 import numpy as np
 from yt_dlp import YoutubeDL
 from config import user, dev, call, logger, logger_mode, botname, appp
-from CASERr.daty import get_call, get_userbot, get_dev, get_logger
+from CASERr.daty import get_call, get_userbot, get_dev, get_logger, del_userbot, del_call
 from pyrogram import Client
 from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
 from CASERr.CASERr import get_channel, devchannel, source, caes, devgroup, devuser, group, casery, johned, photosource
 from io import BytesIO
 import aiofiles
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+from unidecode import unidecode
+
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -51,27 +52,9 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-def make_col():
-    return (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
-
-def truncate(text):
-    list = text.split(" ")
-    text1 = ""
-    text2 = ""
-    for i in list:
-        if len(text1) + len(i) < 30:
-            text1 += " " + i
-        elif len(text2) + len(i) < 30:
-            text2 += " " + i
-
-    text1 = text1.strip()
-    text2 = text2.strip()
-    return [text1, text2]
-
-
 async def gen_bot_caesar(client, bot_username, OWNER_ID, CASER, message, videoid):
-    if os.path.isfile(f"photos/{videoid}_{bot_username}.jpg"):
-        return f"photos/{videoid}_{bot_username}.jpg"
+    if os.path.isfile(f"photos/{videoid}_{bot_username}.png"):
+        return f"photos/{videoid}_{bot_username}.png"
 
     url = f"https://www.youtube.com/watch?v={videoid}"
     try:
@@ -102,82 +85,41 @@ async def gen_bot_caesar(client, bot_username, OWNER_ID, CASER, message, videoid
                 if resp.status == 200:
                     f = await aiofiles.open(f"thumb{videoid}.png", mode="wb")
                     await f.write(await resp.read())
-                    await f.close()                    
+                    await f.close()
+
         youtube = Image.open(f"thumb{videoid}.png")
         image1 = changeImageSize(1280, 720, youtube)
         image2 = image1.convert("RGBA")
-        background = image2.filter(filter=ImageFilter.BoxBlur(5))
+        background = image2.filter(filter=ImageFilter.BoxBlur(10))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-        image2 = background   
+        draw = ImageDraw.Draw(background)
+        arial = ImageFont.truetype("font.ttf", 70)
+        caesa = ImageFont.truetype("font.ttf", 45)        
+        box_size = (500, 500)
+        box_position = (40, 100)
+        box_image = Image.new("RGBA", box_size, (255, 255, 255, 0))
+        box_draw = ImageDraw.Draw(box_image)
+        box_draw.ellipse([(0, 0), box_size], outline="white", width=5)               
         wxyz = await client.get_chat(OWNER_ID)
         CAR = wxyz.username
         vvv = wxyz.photo.big_file_id
         wxy = await client.download_media(vvv)
-        yoube = Image.open(wxy)
-        imge1 = changeImageSize(1280, 720, yoube)
-        imge2 = imge1.convert("RGBA")
-        imge3 = imge1.crop((280, 0, 1000, 720))
-        lum_img = Image.new("L", [720, 720], 0)
-        draw = ImageDraw.Draw(lum_img)
-        draw.pieslice([(0, 0), (720, 720)], 0, 360, fill=255, outline="white")
-        img_arr = np.array(imge3)
-        lum_img_arr = np.array(lum_img)
-        final_img_arr = np.dstack((img_arr, lum_img_arr))
-        imge3 = Image.fromarray(final_img_arr)
-        imge3 = imge3.resize((450, 450))
-        image2.paste(imge3, (50, 150), imge3)
-        
-        wxz = await client.get_chat(bot_username)
-        CA1R = wxz.username
-        bot_id = wxz.id
-        vvv5 = wxz.photo.big_file_id
-        wx6y = await client.download_media(vvv5)
-        yo5ube = Image.open(wx6y)
-        im2ge1 = changeImageSize(1280, 720, yo5ube)
-        im2ge2 = im2ge1.convert("RGBA")
-        im2ge3 = im2ge1.crop((280, 0, 1000, 720))
-        lum_i2mg = Image.new("L", [720, 720], 0)
-        draw = ImageDraw.Draw(lum_i2mg)
-        draw.pieslice([(0, 0), (720, 720)], 0, 360, fill=255, outline="white")
-        img2_arr = np.array(im2ge3)
-        lum2_img_arr = np.array(lum_i2mg)
-        final2_img_arr = np.dstack((img2_arr, lum2_img_arr))
-        im2ge3 = Image.fromarray(final2_img_arr)
-        im2ge3 = im2ge3.resize((270, 270))
-        image2.paste(im2ge3, (515, 250), im2ge3)
-        
-        image3 = image1.crop((280, 0, 1000, 720))
-        lumimg = Image.new("L", [720, 720], 0)
-        draw = ImageDraw.Draw(lumimg)
-        draw.pieslice([(0, 0), (720, 720)], 0, 360, fill=255, outline="white")
-        img_arr = np.array(image3)
-        lum_img_arr = np.array(lumimg)
-        final_img_arr = np.dstack((img_arr, lum_img_arr))
-        image3 = Image.fromarray(final_img_arr)
-        image3 = image3.resize((450, 450))
-        image2.paste(image3, (800, 150), mask=image3)
-        font1 = ImageFont.truetype("font.ttf", 30)
-        font2 = ImageFont.truetype("font.ttf", 70)
-        font3 = ImageFont.truetype("font.ttf", 35)
-        font4 = ImageFont.truetype("font.ttf", 50)
-        image4 = ImageDraw.Draw(image2)
-        image4.text((350, 10), "ElCaEsAr PlAYiNg", fill="white", font=font2, stroke_width=2, stroke_fill="white", align="left")
-        image4.text((470, 645), "MuSiC PlAYiNg", fill="white", font=font4, stroke_width=2, stroke_fill="white", align="left")
-        title1 = truncate(title)
-        image4.text((130, 610), f"UsEr: @{CAR}", (255, 255, 255), font=font3)
-        image4.text((130, 650), f"ID: {OWNER_ID}", (255, 255, 255), font=font3)
-        image4.text((920, 610), f"ViEwS: {views}", (255, 255, 255), font=font3)
-        image4.text((400, 100), text=title1[0], fill="white", stroke_width=1, stroke_fill="white", font=font3, align="left")
-        image2 = ImageOps.expand(image2, border=20, fill=make_col())
-        image2 = image2.convert("RGB")
-        image2.save(f"photos/{videoid}_{bot_username}.jpg")
+        inner_image = Image.open(wxy)
+        inner_image = inner_image.resize((480, 480))
+        box_image.paste(inner_image, (10, 10))  
+        background.paste(box_image, box_position)   
+        draw.text((600, 120), "MuSiC AlQaId", fill="white", stroke_width=2, stroke_fill="white", font=arial)     
+        draw.text((600, 420), f"{channel} | {views[:23]}", (255, 255, 255), font=caesa)        
+        draw.text((600, 490), f"Channel : {channel}", (255, 255, 255), font=caesa)       
+        draw.text((600, 350), f"Views : {views[:23]}", (255, 255, 255), font=caesa) 
+        draw.text((600, 550), f"Duration : {duration[:23]} Mins", (255, 255, 255), font=caesa)    
+        background.save(f"photos/{videoid}_{bot_username}.png")
         os.remove(f"thumb{videoid}.png")
-        file = f"photos/{videoid}_{bot_username}.jpg"
+        file = f"photos/{videoid}_{bot_username}.png"
         return file
     except Exception as e:
         print(e)
-
         
 playlist = {}
 vidd = {}
@@ -205,13 +147,8 @@ async def join_call(bot_username, OWNER_ID, client, message, audio_file, group_i
         await hoss.join_group_call(message.chat.id, stream, stream_type=StreamType().pulse_stream)
         Done = True
     except NoActiveGroupCall:
-        h = await join_assistant(client, group_id, userbot)
-        if h:
-         try:
-           await hoss.join_group_call(message.chat.id, stream, stream_type=StreamType().pulse_stream)
-           Done = True
-         except Exception:
-            await client.send_message(chat_id, "**قم بتشغيل المكالمة أولاً ..**")
+        buttoon = [[InlineKeyboardButton(text="تحديث ♻️", callback_data=f"reboott")]]
+        await client.send_message(message.chat.id, "**حدث خطا اثناء التشغيل\nاضغط علي الزر بالاسفل لتحديث ♻️\nاو تاكد من تشغيل المكالمه الصوتيه**", reply_markup=InlineKeyboardMarkup(buttoon))
     except AlreadyJoinedError:
         if group_id not in playlist:
          playlist[group_id] = [] 
@@ -279,21 +216,20 @@ async def change_stream(bot_username, chat_id, client):
             loggerlink = await apppp.export_chat_invite_link(chat_id)
             button = [[InlineKeyboardButton(text="𝗘𝗻𝗗", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝗦𝘂𝗠𝗲", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗲𝗨𝘀𝗘", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗔𝗻𝗘𝗲𝗟", url=f"{soesh}"), InlineKeyboardButton(text="𝗚𝗿𝗢𝘂𝗣", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
             await apppp.send_photo(chat_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button))
-            await apppp.send_message(logger, f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", disable_web_page_preview=True)
+            await apppp.send_message(logger, f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", disable_web_page_preview=True)
         except Exception as e:
             pass
     else:
         try:
             await hoss.leave_group_call(chat_id)
         except Exception as e:
-            print("مفيش حاجه شغاله اصلا")
+            print("يعم فوق مفيش حاجه شغاله 😹🎶لا")
 
-            
 async def download(bot_username, link, video: Union[bool, str] = None):
     link = link
     loop = asyncio.get_running_loop()
     def audio_dl():
-        ydl_opts = {"format": "bestaudio/best", "outtmpl": f"Music/{bot_username}/%(id)s.%(ext)s", "geo_bypass": True, "nocheckcertificate": True, "quiet": True, "no_warnings": True}
+        ydl_opts = {"format": "bestaudio/best", "outtmpl": f"Music/{bot_username}/%(id)s.%(ext)s", "geo_bypass": True, "nocheckcertificate": True, "quiet": True, "no_warnings": True, "username": "oauth2", "password" : ""}
         x = yt_dlp.YoutubeDL(ydl_opts)
         info = x.extract_info(link, False)
         xyz = os.path.join(f"Music/{bot_username}/{info['id']}.{info['ext']}")
@@ -302,7 +238,16 @@ async def download(bot_username, link, video: Union[bool, str] = None):
         x.download([link])
         return xyz
     if video:
-        proc = await asyncio.create_subprocess_exec("yt-dlp", "-g", "-f", "best[height<=?720][width<=?1280]", f"{link}", stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
+        proc = await asyncio.create_subprocess_exec(
+            "yt-dlp",
+            "--username", "oauth2",
+            "--password", "",
+            "-g",
+            "-f", "bestvideo[height<=?720][width<=?1280]+bestaudio/best",
+            f"{link}",
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
         stdout, stderr = await proc.communicate()
         if stdout:
             downloaded_file = stdout.decode().split("\n")[0]
@@ -311,9 +256,12 @@ async def download(bot_username, link, video: Union[bool, str] = None):
     else:
         downloaded_file = await loop.run_in_executor(None, audio_dl)
     return downloaded_file
-
-async def join_assistant(client, hoss_chat_user, user):
-        join = None
+ 
+@Client.on_message(filters.command(["انضم"], ""), group=575580)
+async def mson5454hfbg(client, message):
+        hoss_chat_user = message.chat.id
+        bot_username = client.me.username
+        user = await get_userbot(bot_username) 
         hos_info = await client.get_chat(hoss_chat_user)    
         if hos_info.invite_link:
           hos_link = hos_info.invite_link
@@ -322,10 +270,70 @@ async def join_assistant(client, hoss_chat_user, user):
           return
         try:
           await user.join_chat(str(hos_link))
-          join = True
         except Exception as e:
           print(f"حدث خطأ أثناء الانضمام: {str(e)}")
-        return join        
+
+@Client.on_message(filters.command(["/reboot"], ""), group=57557580)
+async def mson5674hfbg(client, message):
+        hoss_chat_user = message.chat.id
+        bot_username = client.me.username
+        h = await message.reply_text("جاري التحديث انتظر ♻️")
+        await asyncio.sleep(5)
+        try: 
+          user = await del_userbot(bot_username) 
+          call = await del_call(bot_username) 
+          await Call(bot_username)
+          await h.edit_text("تم التحديث بنجاح ♻️✅")
+        except Exception as e:
+          await message.reply_text("حدث خطا اثناء التحديث")
+          
+@Client.on_callback_query(filters.regex(pattern=r"^(reboott)$"))
+async def rebootthd(client: Client, CallbackQuery):
+    bot_username = client.me.username 
+    hoss = await get_call(bot_username)
+    a = await client.get_chat_member(CallbackQuery.message.chat.id, CallbackQuery.from_user.id)
+    if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+     return await CallbackQuery.answer("يجب انت تكون ادمن للقيام بذلك  !", show_alert=True)
+    command = CallbackQuery.matches[0].group(1)
+    chat_id = CallbackQuery.message.chat.id
+    await CallbackQuery.message.delete()
+    if command == "reboott":
+        try:
+         h = await CallbackQuery.message.reply_text("**جاري التحديث انتظر ♻️**")
+         await asyncio.sleep(5)
+         user = await del_userbot(bot_username) 
+         call = await del_call(bot_username) 
+         await Call(bot_username)
+         await h.edit_text("**تم التحديث بنجاح ♻️✅**")
+        except Exception as e:
+         await CallbackQuery.message.reply_text(f"**حدث خطا اثناء التحديث**")
+                  
+@Client.on_message(filters.text & filters.group) 
+async def leave_group(client, message):
+   bot_username = client.me.username
+   OWNER_ID = await get_dev(bot_username)
+   if message.from_user.id == OWNER_ID or message.from_user.username in caes:
+     if message.text == "اخرج": 
+        await message.reply_text("سأغادر الآن 👋")
+        await client.leave_chat(message.chat.id)
+
+Music = {}
+
+@Client.on_message(filters.command(["قفل الميوزك"], ""),group=18798)
+async def abra245g(client, message):
+   bot_username = client.me.username
+   OWNER_ID = await get_dev(bot_username)
+   if message.from_user.id == OWNER_ID or message.from_user.username in caes:
+    Music.setdefault(bot_username, []).append(bot_username)
+    await message.reply_text(f"• تم قفل الميوزك بواسطه ↤︎「 {message.from_user.mention}")
+
+@Client.on_message(filters.command(["فتح الميوزك"], ""),group=545177)
+async def abr54ag(client, message):
+   bot_username = client.me.username
+   OWNER_ID = await get_dev(bot_username)
+   if message.from_user.id == OWNER_ID or message.from_user.username in caes:
+    Music[bot_username].remove(bot_username)
+    await message.reply_text(f"• تم فتح الميوزك بواسطه ↤︎「 {message.from_user.mention}")
 
 yoro = ["Xnxx", "سكس","اباحيه","جنس","اباحي","زب","كسمك","كس","شرمطه","نيك","لبوه","فشخ","مهبل","نيك خلفى","بتتناك","مساج","كس ملبن","نيك جماعى","نيك جماعي","نيك بنات","رقص","قلع","خلع ملابس","بنات من غير هدوم","بنات ملط","نيك طيز","نيك من ورا","نيك في الكس","ارهاب","موت","حرب","سياسه","سياسي","سكسي","قحبه","شواز","ممويز","نياكه","xnxx","sex","xxx","Sex","Born","borno","Sesso"]
 
@@ -355,7 +363,7 @@ async def msonhfbg(client, message):
      audio_file = await message.reply_to_message.download()
      thum = None
      namechat = f"{message.chat.title}"
-     button = [[InlineKeyboardButton(text="𝗘𝗻𝗗", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝗦𝘂𝗠𝗲", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗲𝗨𝘀𝗘", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗔𝗻𝗘𝗲𝗟", url=f"{soesh}"), InlineKeyboardButton(text="𝗚𝗿𝗢𝘂𝗣", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
+     button = [[InlineKeyboardButton(text="𝐄𝐍𝐃", callback_data=f"stop"), InlineKeyboardButton(text="𝐑𝐄𝐒𝐔𝐌𝐄", callback_data=f"resume"), InlineKeyboardButton(text="𝐏𝐄𝐔𝐒𝐄", callback_data=f"pause")], [InlineKeyboardButton(text="𝐂𝐇𝐀𝐍𝐄𝐋", url=f"{soesh}"), InlineKeyboardButton(text="𝐆𝐑𝐎𝐔𝐏", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
      loggerlink = message.chat.username if message.chat.username else message.chat.title
      if message.from_user is not None:
       user_mention = f"{message.from_user.mention}"
@@ -367,20 +375,20 @@ async def msonhfbg(client, message):
      if not c:
          return
      await client.send_photo(group_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button), reply_to_message_id=message.id)
-     await client.send_message(logger, f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", disable_web_page_preview=True)
+     await client.send_message(logger, f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", disable_web_page_preview=True)
     elif message.text:
      try:
       text = message.text.split(None, 1)[1]
      except Exception as e:
-      nme = await client.ask(message.chat.id, text="**استر يعم عايز تشغل اي بق 😂**", reply_to_message_id=message.id, filters=filters.user(message.from_user.id), timeout=200)
+      nme = await client.ask(message.chat.id, text="**القمر عيز يشغل اي 😂♥🎵**", reply_to_message_id=message.id, filters=filters.user(message.from_user.id), timeout=200)
       text = nme.text
     else:
         return
     if text in yoro:
-      return await message.reply_text("**لا يمكن تشغيل هذا**")  
+      return await message.reply_text("**مش بشغل حاجه حرام 🙄😹**")  
     else:      
      print("احم")    
-    mm = await message.reply_text("**جاري التشغيل انتظر 🎵♥**")    
+    mm = await message.reply_text("**جاري التشغيل يقلبي ✨♥🎵**")    
     try:
      results = VideosSearch(text, limit=1)
     except Exception:
@@ -400,7 +408,7 @@ async def msonhfbg(client, message):
     audio_file = await download(bot_username, link, vid)
     photo = await gen_bot_caesar(client, bot_username, OWNER_ID, CASER, message, videoid)   
     namechat = f"{message.chat.title}"     
-    button = [[InlineKeyboardButton(text="𝗘𝗻𝗗", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝗦𝘂𝗠𝗲", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗲𝗨𝘀𝗘", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗔𝗻𝗘𝗲𝗟", url=f"{soesh}"), InlineKeyboardButton(text="𝗚𝗿𝗢𝘂𝗣", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
+    button = [[InlineKeyboardButton(text="𝐄𝐍𝐃", callback_data=f"stop"), InlineKeyboardButton(text="𝐑𝐄𝐒𝐔𝐌𝐄", callback_data=f"resume"), InlineKeyboardButton(text="𝐏𝐄𝐔𝐒𝐄", callback_data=f"pause")], [InlineKeyboardButton(text="𝐂𝐇𝐀𝐍𝐄𝐋", url=f"{soesh}"), InlineKeyboardButton(text="𝐆𝐑𝐎𝐔𝐏", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
     loggerlink = await client.export_chat_invite_link(group_id)
     await mm.delete()
     if message.from_user is not None:
@@ -411,7 +419,7 @@ async def msonhfbg(client, message):
     if not c:
          return
     await client.send_photo(group_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button), reply_to_message_id=message.id)
-    await client.send_message(logger, f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", disable_web_page_preview=True)
+    await client.send_message(logger, f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", disable_web_page_preview=True)
     try:
          return
     except:
@@ -441,7 +449,7 @@ async def msonhfbhdhjhg(client, message):
      audio_file = await message.reply_to_message.download()
      thum = None
      namechat = f"{message.chat.title}"
-     button = [[InlineKeyboardButton(text="𝗘𝗻𝗗", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝗦𝘂𝗠𝗲", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗲𝗨𝘀𝗘", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗔𝗻𝗘𝗲𝗟", url=f"{soesh}"), InlineKeyboardButton(text="𝗚𝗿𝗢𝘂𝗣", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
+     button = [[InlineKeyboardButton(text="𝐄𝐍𝐃", callback_data=f"stop"), InlineKeyboardButton(text="𝐑𝐄𝐒𝐔𝐌𝐄", callback_data=f"resume"), InlineKeyboardButton(text="𝐏𝐄𝐔𝐒𝐄", callback_data=f"pause")], [InlineKeyboardButton(text="𝐂𝐇𝐀𝐍𝐄𝐋", url=f"{soesh}"), InlineKeyboardButton(text="𝐆𝐑𝐎𝐔𝐏", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
      loggerlink = message.chat.username if message.chat.username else message.chat.title
      if message.from_user is not None:
       user_mention = f"{message.from_user.mention}"
@@ -453,20 +461,20 @@ async def msonhfbhdhjhg(client, message):
      if not c:
          return
      await client.send_photo(group_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button), reply_to_message_id=message.id)
-     await client.send_message(logger, f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", disable_web_page_preview=True)
+     await client.send_message(logger, f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", disable_web_page_preview=True)
     elif message.text:
      try:
       text = message.text.split(None, 1)[1]
      except Exception as e:
-      nme = await client.ask(message.chat.id, text="**استر يعم عايز تشغل اي بق 😂**", reply_to_message_id=message.id, timeout=200)
+      nme = await client.ask(message.chat.id, text="**القمر عيز يشغل اي 😂♥🎵**", reply_to_message_id=message.id, timeout=200)
       text = nme.text
     else:
         return
     if text in yoro:
-      return await message.reply_text("**لا يمكن تشغيل هذا**")  
+      return await message.reply_text("**مش بشغل حاجه حرام 🙄😹**")  
     else:      
      print("احم")    
-    mm = await message.reply_text("**جاري التشغيل انتظر 🎵♥**")    
+    mm = await message.reply_text("**جاري التشغيل يقلبي ✨♥🎵**")    
     try:
      results = VideosSearch(text, limit=1)
     except Exception:
@@ -486,7 +494,7 @@ async def msonhfbhdhjhg(client, message):
     audio_file = await download(bot_username, link, vid)
     photo = await gen_bot_caesar(client, bot_username, OWNER_ID, CASER, message, videoid)   
     namechat = f"{message.chat.title}"     
-    button = [[InlineKeyboardButton(text="𝗘𝗻𝗗", callback_data=f"stop"), InlineKeyboardButton(text="𝗥𝗲𝗦𝘂𝗠𝗲", callback_data=f"resume"), InlineKeyboardButton(text="𝗣𝗲𝗨𝘀𝗘", callback_data=f"pause")], [InlineKeyboardButton(text="𝗖𝗵𝗔𝗻𝗘𝗲𝗟", url=f"{soesh}"), InlineKeyboardButton(text="𝗚𝗿𝗢𝘂𝗣", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
+    button = [[InlineKeyboardButton(text="𝐄𝐍𝐃", callback_data=f"stop"), InlineKeyboardButton(text="𝐑𝐄𝐒𝐔𝐌𝐄", callback_data=f"resume"), InlineKeyboardButton(text="𝐏𝐄𝐔𝐒𝐄", callback_data=f"pause")], [InlineKeyboardButton(text="𝐂𝐇𝐀𝐍𝐄𝐋", url=f"{soesh}"), InlineKeyboardButton(text="𝐆𝐑𝐎𝐔𝐏", url=f"{gr}")], [InlineKeyboardButton(text=f"{name}", url=f"https://t.me/{CASER}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣", url=f"https://t.me/{bot_username}?startgroup=True")]]
     loggerlink = await client.export_chat_invite_link(group_id)
     await mm.delete()
     if message.from_user is not None:
@@ -496,8 +504,8 @@ async def msonhfbhdhjhg(client, message):
     c = await join_call(bot_username, OWNER_ID, client, message, audio_file, group_id, vid, user_mention, photo, thum, namechat)
     if not c:
          return
-    await client.send_photo(group_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button), reply_to_message_id=message.id)
-    await client.send_message(logger, f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", disable_web_page_preview=True)
+    await client.send_photo(group_id, photo=photo, caption=f"**𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n𝗕𝘆 : {user_mention}\n𝗚??𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})**", reply_markup=InlineKeyboardMarkup(button), reply_to_message_id=message.id)
+    await client.send_message(logger, f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ |𝗣𝗹𝗔𝘆𝗜𝗻𝗚 𝗡𝗼𝗪 𝗦𝘁𝗔𝗿𝗧𝗲𝗗\n\n⌁ |𝗦𝗼𝗡𝗴 𝗡𝗮𝗠𝗲 : `{thum}`\n⌁ |𝗕𝘆 : {user_mention}\n⌁ |𝗚𝗿𝗢𝘂𝗣 𝗕𝘆 : [{namechat}]({loggerlink})\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", disable_web_page_preview=True)
     try:
          return
     except:
@@ -514,7 +522,7 @@ async def gers(client, message):
     if group_id in thu:
         count = len(thu[group_id])
         user_mentions = [str(user) for user in thu[group_id]]
-        response = f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁|𝗧𝗵𝗘 𝗦𝗼𝗡𝗴𝗦 𝗢𝗻 𝗧𝗵𝗘 𝗟𝗶𝗦𝘁:\n\n⌁|𝗡𝘂𝗠𝗯𝗘𝗿 𝗦𝗼𝗡𝗴𝗦: {count}\n\n**"
+        response = f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁|𝗧𝗵𝗘 𝗦𝗼𝗡𝗴𝗦 𝗢𝗻 𝗧𝗵𝗘 𝗟𝗶𝗦𝘁:\n\n⌁|𝗡𝘂𝗠𝗯𝗘𝗿 𝗦𝗼𝗡𝗴𝗦: {count}\n\n**"
         if count == 0:
             return await message.reply_text("**مفيش اغاني في القائمه**")
         else:
@@ -540,16 +548,16 @@ async def admin_risghts(client: Client, CallbackQuery):
          await CallbackQuery.answer("تم ايقاف التشغيل موقتا .", show_alert=True)
          await CallbackQuery.message.reply_text(f"{CallbackQuery.from_user.mention} **تم ايقاف التشغيل بواسطه**")
         except Exception as e:
-         await CallbackQuery.answer("مفيش حاجه شغاله اصلا", show_alert=True)
-         await CallbackQuery.message.reply_text(f"**مفيش حاجه شغاله اصلا يا {CallbackQuery.from_user.mention}**")
+         await CallbackQuery.answer("يعم فوق مفيش حاجه شغاله 😹🎶لا", show_alert=True)
+         await CallbackQuery.message.reply_text(f"**يعم فوق مفيش حاجه شغاله 😹🎶لا يا {CallbackQuery.from_user.mention}**")
     if command == "resume":
         try:
          await hoss.resume_stream(chat_id)
          await CallbackQuery.answer("تم استكمال التشغيل .", show_alert=True)
          await CallbackQuery.message.reply_text(f"{CallbackQuery.from_user.mention} **تم إستكمال التشغيل بواسطه**")
         except Exception as e:
-         await CallbackQuery.answer("مفيش حاجه شغاله اصلا", show_alert=True)
-         await CallbackQuery.message.reply_text(f"**مفيش حاجه شغاله اصلا يا {CallbackQuery.from_user.mention}**")
+         await CallbackQuery.answer("يعم فوق مفيش حاجه شغاله 😹🎶لا", show_alert=True)
+         await CallbackQuery.message.reply_text(f"**يعم فوق مفيش حاجه شغاله 😹🎶لا يا {CallbackQuery.from_user.mention}**")
     if command == "stop":
        try:    	
         playlist[chat_id].clear()
@@ -586,9 +594,9 @@ async def ghuser(client, message):
       print(f"{e}")
      try:    	
       await hoss.leave_group_call(message.chat.id)
-      await ho.edit_text("**حاضر سكت اهو 🥺**")
+      await ho.edit_text("**حاضر سكت اهو 🥺❤**")
      except Exception as e:
-      await ho.edit_text("**مفيش حاجه شغاله اصلا**")    
+      await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")    
     else:
       return await message.reply_text(f"**عذرا عزيزي{message.from_user.mention}\n هذا الامر لا يخصك✨♥**")
 
@@ -606,9 +614,9 @@ async def gh24user(client, message):
       print(f"{e}")
      try:    	
       await hoss.leave_group_call(message.chat.id)
-      await ho.edit_text("**حاضر سكت اهو 🥺**")
+      await ho.edit_text("**حاضر سكت اهو 🥺❤**")
      except Exception as e:
-      await ho.edit_text("**مفيش حاجه شغاله اصلا**")    
+      await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")    
  
 @Client.on_message(filters.command(["تخطي", "/skip"], "") & filters.group, group=5864548)
 async def skip2(client, message):
@@ -647,12 +655,12 @@ async def sp2(client, message):
     chek = await client.get_chat_member(message.chat.id, message.from_user.id)
     if chek.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.username in caes:
      chat_id = message.chat.id
-     ho = await message.reply_text("**جاري توقف التشغيل**") 
+     ho = await message.reply_text("**هوقف كلام حاضر ✨🔊**") 
      try:    	
       await hoss.pause_stream(chat_id)
-      await ho.edit_text("**تم توقف التشغيل بنجاح**")
+      await ho.edit_text("**وقفت كلام اهو 😞🔇**")
      except Exception as e:
-      await ho.edit_text("**مفيش حاجه شغاله اصلا**")
+      await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")
     else:
      return await message.reply_text(f"**عذرا عزيزي{message.from_user.mention}\n هذا الامر لا يخصك✨♥**")
 
@@ -661,12 +669,12 @@ async def s356p2(client, message):
     bot_username = client.me.username
     hoss = await get_call(bot_username)
     chat_id = message.chat.id
-    ho = await message.reply_text("**جاري توقف التشغيل**") 
+    ho = await message.reply_text("**هوقف كلام حاضر ✨🔊**") 
     try:    	
      await hoss.pause_stream(chat_id)
-     await ho.edit_text("**تم توقف التشغيل بنجاح**")
+     await ho.edit_text("**وقفت كلام اهو 😞🔇**")
     except Exception as e:
-     await ho.edit_text("**مفيش حاجه شغاله اصلا**")
+     await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")
      
 @Client.on_message(filters.command(["كمل"], "") & filters.group, group=5866564548)
 async def s12p2(client, message):
@@ -678,12 +686,12 @@ async def s12p2(client, message):
     chek = await client.get_chat_member(message.chat.id, message.from_user.id)
     if chek.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.username in caes:
      chat_id = message.chat.id
-     ho = await message.reply_text("**جاري استكمال التشغيل**") 
+     ho = await message.reply_text("**خلاص هكمل التشغيل يروحي ♥🥰**") 
      try:    	
       await hoss.resume_stream(chat_id)
-      await ho.edit_text("**تم استكمال التشغيل بنجاح**")
+      await ho.edit_text("**خلاص اشتغلت يروحي ✨🥰**")
      except Exception as e:
-      await ho.edit_text("**مفيش حاجه شغاله اصلا**")
+      await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")
     else:
      return await message.reply_text(f"**عذرا عزيزي{message.from_user.mention}\n هذا الامر لا يخصك✨♥**")
 
@@ -692,9 +700,9 @@ async def s12p582(client, message):
     bot_username = client.me.username
     hoss = await get_call(bot_username)
     chat_id = message.chat.id
-    ho = await message.reply_text("**جاري استكمال التشغيل**") 
+    ho = await message.reply_text("**خلاص هكمل التشغيل يروحي ♥🥰**") 
     try:    	
      await hoss.resume_stream(chat_id)
-     await ho.edit_text("**تم استكمال التشغيل بنجاح**")
+     await ho.edit_text("**خلاص اشتغلت يروحي ✨🥰**")
     except Exception as e:
-     await ho.edit_text("**مفيش حاجه شغاله اصلا**")
+     await ho.edit_text("**يعم فوق مفيش حاجه شغاله 😹🎶لا**")
