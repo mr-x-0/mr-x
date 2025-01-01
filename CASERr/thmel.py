@@ -70,7 +70,7 @@ async def h24dgfgbie(client: Client, CallbackQuery):
     kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
     url = mo
     sedlyf = wget.download(kekme)
-    opts = {"format": "best", "keepvideo": True, "prefer_ffmpeg": False, "geo_bypass": True, "outtmpl": "%(title)s.%(ext)s", "quite": True}
+    opts = {"format": "best", "keepvideo": True, "prefer_ffmpeg": False, "geo_bypass": True, "outtmpl": "%(title)s.%(ext)s", "quite": True, "username": "oauth2", "password" : ""}
     try:
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url, download=True)
@@ -108,7 +108,7 @@ async def h24dg54hfbie(client: Client, CallbackQuery):
     mio[0]["channel"]
     kekme = f"https://img.youtube.com/vi/{fridayz}/hqdefault.jpg"
     sedlyf = wget.download(kekme)
-    opts = {'format': 'bestaudio[ext=m4a]', 'keepvideo': False, 'prefer_ffmpeg': False, 'geo_bypass': True, 'outtmpl': '%(title)s.%(ext)s', 'quite': True}
+    opts = {'format': 'bestaudio[ext=m4a]', 'keepvideo': False, 'prefer_ffmpeg': False, 'geo_bypass': True, 'outtmpl': '%(title)s.%(ext)s', 'quite': True, "username": "oauth2", "password" : ""}
     try:
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(mo, download=True)

@@ -182,7 +182,7 @@ async def ceev55(client, message):
                                 ],[InlineKeyboardButton("ضيفني في جروب والنبي🥺♥", url=f"https://t.me/{bot_username}?startgroup=tru")]]))              
 
 
-@Client.on_message(filters.command(["غنيلي", "غني", "❤️‍🔥غنيلي", "غنيي"], ""), group=73)
+@Client.on_message(filters.command(["غنيلي", "غني", "❤️‍🔥غنيلي", "اغاني"], ""), group=73)
 async def ih25d(client, message):
     bot_username = client.me.username
     OWNER_ID = await get_dev(bot_username)
@@ -190,8 +190,8 @@ async def ih25d(client, message):
      return
     if message.chat.id in src:
         return
-    rl = random.randint(2, 90)
-    url = f"https://t.me/gukygn/{rl}"
+    rl = random.randint(2, 131)
+    url = f"https://t.me/Aganeebo/{rl}"
     await client.send_voice(message.chat.id, url, caption=f"╭───── : ◖⋮◗ : ─────╮\n𝗖𝗵: @{chh}\n╰───── : ◖⋮◗ : ─────╯", parse_mode=enums.ParseMode.HTML, reply_to_message_id=message.id)
 
 @Client.on_message(filters.command(["صوره", "❤️‍🔥صوره", "صورهه", "صور"], ""), group=713)
@@ -202,8 +202,8 @@ async def ihd21(client, message):
      return
     if message.chat.id in src:
         return
-    rl = random.randint(2, 100)
-    url = f"https://t.me/Caser_Rady_3/{rl}"
+    rl = random.randint(2, 314)
+    url = f"https://t.me/swarbo/{rl}"
     await client.send_photo(message.chat.id, url, caption=f"╭───── : ◖⋮◗ : ─────╮\n𝗖𝗵: @{chh}\n╰───── : ◖⋮◗ : ─────╯", parse_mode=enums.ParseMode.HTML, reply_to_message_id=message.id)
 
 @Client.on_message(filters.command(["❤️‍🔥انمي", "انمي"], ""), group=723)
@@ -262,8 +262,8 @@ async def ih467d(client, message):
      return
     if message.chat.id in src:
         return
-    rl = random.randint(2, 70)
-    url = f"https://t.me/Caser_Rady_1/{rl}"
+    rl = random.randint(259, 314)
+    url = f"https://t.me/swarbo/{rl}"
     await client.send_photo(message.chat.id, url, caption=f"╭───── : ◖⋮◗ : ─────╮\n𝗖𝗵: @{chh}\n╰───── : ◖⋮◗ : ─────╯", parse_mode=enums.ParseMode.HTML, reply_to_message_id=message.id)
 
 @Client.on_message(filters.command(["صور شباب", "❤️‍🔥صور شباب"], ""), group=773)
@@ -286,8 +286,8 @@ async def ihd97(client, message):
      return
     if message.chat.id in src:
         return
-    rl = random.randint(1, 90)
-    url = f"https://t.me/opuml/{rl}"
+    rl = random.randint(2, 81)
+    url = f"https://t.me/Cornble/{rl}"
     await client.send_voice(message.chat.id, url, caption=f"╭───── : ◖⋮◗ : ─────╮\n𝗖𝗵: @{chh}\n╰───── : ◖⋮◗ : ─────╯", parse_mode=enums.ParseMode.HTML, reply_to_message_id=message.id)
 
 @Client.on_message(filters.command(["❤️‍🔥الشيخ نقشبندي", "النقشبندي", "نقشبندي"], ""), group=793) 
@@ -332,8 +332,8 @@ async def cu24tt(client, message):
     OWNER_ID = await get_dev(bot_username)
     if await johned(client, message):
      return    
-    rl = random.randint(2, 400)
-    url = f"https://t.me/Caser_Rady/{rl}"
+    rl = random.randint(2, 60)
+    url = f"https://t.me/Kattwet/{rl}"
     name = url.replace("https://t.me/", "")
     path_parts = name.split("/")
     group_id = path_parts[0]
@@ -360,8 +360,8 @@ async def khyro(client, message):
     OWNER_ID = await get_dev(bot_username)
     if await johned(client, message):
      return
-    rl = random.randint(2, 230)
-    url = f"https://t.me/Caser_Rady_4/{rl}"
+    rl = random.randint(2, 116)
+    url = f"https://t.me/khayarwk/{rl}"
     name = url.replace("https://t.me/", "")
     path_parts = name.split("/")
     group_id = path_parts[0]
@@ -1040,7 +1040,7 @@ async def d5548on(client, message):
    elif message.text == "نعم":
        await message.reply_text(f" نعم الله عليك ")
    elif "." in message.text:
-       await message.reply_text(f"صلي علي النبي وتبسم ")
+       await message.reply_text(f"**صلي على النبي وتبسم ☕️☘️**")
    elif message.text == "سلام":
        await message.reply_text(f" مع الف سلامه يقلبي متجيش تاني")
    elif message.text == "🙄":

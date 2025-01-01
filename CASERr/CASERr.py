@@ -6,6 +6,10 @@ import os
 import time
 import datetime
 import redis, re
+from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
+from pyrogram import filters, Client
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.enums import ChatMemberStatus
 from pyrogram import Client as client
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
 from unidecode import unidecode
@@ -30,8 +34,6 @@ from config import user, dev, call, logger, logger_mode, botname, appp
 from CASERr.daty import get_call, get_userbot, get_dev, get_logger
 from casery import caes, casery, group, source, photosource, caserid
     
-API_ID = int("21627756")
-API_HASH = "fe77fbf0cae9f7f5ece37659e2466cf1"
 
 import redis
 
@@ -40,6 +42,8 @@ r = redis.Redis(
     port=12470,
     password="T6skap2jHYZumHLHDVYcC6kIjjkv423F",
 )
+
+
 
 
 Keyard = ReplyKeyboardMarkup(
@@ -70,6 +74,7 @@ Keyboard = ReplyKeyboardMarkup(
     [("《تفعيل التواصل》"), ("《تعطيل التواصل》")],
     [("اضف قناه اشتراك"), ("حذف قناه اشتراك")],  
     [("قنوات الاشتراك")],     
+    [("فتح الميوزك"), ("قفل الميوزك")],
     [("الجروبات"), ("المستخدمين")],
     [("رفع نسخه الجروبات"), ("رفع نسخه الاشخاص")],
     [("قسم الترويج")],
@@ -88,6 +93,7 @@ Keybcasoard = ReplyKeyboardMarkup(
     [("《تفعيل التواصل》"), ("《تعطيل التواصل》")],
     [("اضف قناه اشتراك"), ("حذف قناه اشتراك")],  
     [("قنوات الاشتراك")],     
+    [("فتح الميوزك"), ("قفل الميوزك")],
     [("الجروبات"), ("المستخدمين")],
     [("رفع نسخه الجروبات"), ("رفع نسخه الاشخاص")],
     [("تفعيل الصلاحيات المدفوعه"),("تعطيل الصلاحيات المدفوعه")],
@@ -123,7 +129,7 @@ source = source
 group = group
 caserid = caserid
 photosource = photosource
-name = "قيصر"
+name = "مرعب"
 names = {} 
 devuser = {} 
 devchannel = {} 
@@ -405,9 +411,9 @@ async def for_us65ers(client, message):
    photo = await gen_bot(client, bot_username, bot_id)
    if await check(message.from_user.id, bot_username, bot_id):
      kep = ReplyKeyboardMarkup([["《صنع بوت》", "《حذف بوت》"], ["البوتات المصنوعه"], ["تعطيل المجاني", "تفعيل المجاني"], ["تعطيل التواصل", "تفعيل التواصل"], ["السورس"], ["الغاء"]], resize_keyboard=True)
-     return await message.reply_photo(photo=photo, caption=f"**.       ╭─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | مع جميع الرتب من الادمن للاساسي\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
+     return await message.reply_photo(photo=photo, caption=f"**.       ╭─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | مع جميع الرتب من الادمن للاساسي\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
    kep = ReplyKeyboardMarkup([["مطور البوت"], ["🥺 ¦ حذف الكيبورد"]], resize_keyboard=True)
-   await message.reply_photo(photo=photo, caption=f"**.       ╭─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | مع جميع الرتب من الادمن للاساسي\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
+   await message.reply_photo(photo=photo, caption=f"**.       ╭─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | مع جميع الرتب من الادمن للاساسي\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
    if not await check(message.from_user.id, bot_username, bot_id):
      print("t")
    if not is_user(message.from_user.id, bot_id):
@@ -443,17 +449,17 @@ async def admin_r98hts(client: Client, CallbackQuery):
     if command == "arbk":
      button = [[InlineKeyboardButton(text="اوامر التشغيل ⚡", callback_data=f"arbkm"), InlineKeyboardButton(text="اوامر الحمايه ⚡", callback_data=f"arbkh")], [InlineKeyboardButton(text=f"القـنـاة ⚡", url=f"{soesh}"), InlineKeyboardButton(text=f"الـجـروب ⚡", url=f"{gr}")], [InlineKeyboardButton(text=f"{namew}", url=f"https://t.me/{wenru}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣 ⤶", url=f"https://t.me/{bot_username}?startgroup=True")]]
      await CallbackQuery.answer("مرحبا بك في قسم اللغه العربيه ✨♥", show_alert=True)	
-     await CallbackQuery.edit_message_text(f"**.       ╭─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╮\n\n⌁ | مرحبا بك {CallbackQuery.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
+     await CallbackQuery.edit_message_text(f"**.       ╭─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╮\n\n⌁ | مرحبا بك {CallbackQuery.from_user.mention}\n⌁ | انا {botmention}\n⌁ | اتمتع بافضل اداء في سرعه التشغيل\n⌁ | واجمل حمايه جروبات وقنوات\n⌁ | واقوي منع تصفيه\n⌁ | ضفني في جروبك وتاكد بانفسك\n\n        ╰─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
     if command == "english":
      button = [[InlineKeyboardButton(text="Play orders ⚡", callback_data=f"englishm")], [InlineKeyboardButton(text=f"Channel ⚡", url=f"{soesh}"), InlineKeyboardButton(text=f"Group ⚡", url=f"{gr}")], [InlineKeyboardButton(text=f"{namew}", url=f"https://t.me/{wenru}")], [InlineKeyboardButton(text="𝗔𝗱𝗗 𝗕𝗼𝗧 𝗧𝗼 𝗬𝗼𝗨𝗿 𝗚𝗿𝗢𝘂𝗣 ⤶", url=f"https://t.me/{bot_username}?startgroup=True")]]
      await CallbackQuery.answer("مرحبا بك في قسم اللغه الانجليزيه ✨♥", show_alert=True)	
-     await CallbackQuery.edit_message_text(f"**╭─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╮\n\n𝗔 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗠𝘂𝘀𝗶𝗰 𝗕𝗼𝘁\n𝗣𝗹𝗮𝘆𝗲𝗱 𝗠𝘂𝘀𝗶𝗰 𝗮𝗻𝗱 𝗩𝗶𝗱𝗲𝗼 𝗶𝗻 𝗩𝗖\n𝗕𝗼𝘁 𝗢𝗻𝗹𝗶𝗻𝗲 𝗡𝗼𝘄 ......🖱️❤️\n𝗔𝗱𝗱 𝗠𝗲 𝗧𝗼 𝗬𝗼𝘂𝗿 𝗖𝗵𝗮𝘁\n\n╰─── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
+     await CallbackQuery.edit_message_text(f"**╭─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╮\n\n𝗔 𝗧𝗲𝗹𝗲𝗴𝗿𝗮𝗺 𝗠𝘂𝘀𝗶𝗰 𝗕𝗼𝘁\n𝗣𝗹𝗮𝘆𝗲𝗱 𝗠𝘂𝘀𝗶𝗰 𝗮𝗻𝗱 𝗩𝗶𝗱𝗲𝗼 𝗶𝗻 𝗩𝗖\n𝗕𝗼𝘁 𝗢𝗻𝗹𝗶𝗻𝗲 𝗡𝗼𝘄 ......🖱️❤️\n𝗔𝗱𝗱 𝗠𝗲 𝗧𝗼 𝗬𝗼𝘂𝗿 𝗖𝗵𝗮𝘁\n\n╰─── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ───╯**", reply_markup=InlineKeyboardMarkup(button))
 
 @Client.on_callback_query(filters.regex("arbkh"))
 async def hem84a1(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• اوامــر الحمايه\n• قفل وفتح ← الروابط\n• قفل وفتح ← الدردشه\n• قفل وفتح ← المنشن\n• قفل وفتح ← الفيديو\n• قفل وفتح ← الصور\n• قفل وفتح ← الملصقات\n• قفل وفتح ← الردود\n• قفل وفتح ← التاك\n  • تفعيل وتعطيل ← سمسمي\n• همسه ← عن طريق ريبلاي\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n• رفع مشرف ← مع تحديد الصلاحيات\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="arbk")]]))
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• اوامــر الحمايه\n• قفل وفتح ← الروابط\n• قفل وفتح ← الدردشه\n• قفل وفتح ← المنشن\n• قفل وفتح ← الفيديو\n• قفل وفتح ← الصور\n• قفل وفتح ← الملصقات\n• قفل وفتح ← الردود\n• قفل وفتح ← التاك\n  • تفعيل وتعطيل ← سمسمي\n• همسه ← عن طريق ريبلاي\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n• رفع مشرف ← مع تحديد الصلاحيات\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="arbk")]]))
        
 @Client.on_callback_query(filters.regex("arbkm"))
 async def mem84ma1(client, callback_query: CallbackQuery):
@@ -831,14 +837,14 @@ async def cfsa54er(client, m):
                 await client.send_message(int(owner_id), text, disable_web_page_preview=True)
         await m.reply_photo(
             photo=photo,
-            caption=f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗
+            caption=f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗
 
 تم تفعيل الجروب بنجاح 🥰✅
 وتم تفعيل منع التصفيه تلقائي 🥰✅
 تم رفع المالك والمشرفين 🥰✅
 لمعرفه كل الاوامر اضغط علي (الاوامر بالاسفل) 🥰✅
 
-⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""",
+⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -848,7 +854,7 @@ async def cfsa54er(client, m):
                     ],
                     [
                         InlineKeyboardButton(
-                            "ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}"
+                            "𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}"
                         ),
                     ],
                     [
@@ -915,7 +921,7 @@ async def add_group(client, m):
                     ],
                     [
                         InlineKeyboardButton(
-                            "ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}"
+                            "𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}"
                         ),
                     ],
                     [
@@ -1243,7 +1249,7 @@ async def casrt54y(client, message):
      print(es)
    await message.reply_text("**تم الانتهاء من الترويج✨♥**")         
     
-@Client.on_message(filters.command(["الاوامر","اوامر السورس","اوامر البوت","الحمايه"], ""), group=73)
+@Client.on_message(filters.command(["الاوامر","اوامر السورس","اوامر البوت"], ""), group=73)
 async def kggalid(client, message):
     bot_username = client.me.username
     bot_id = client.me.id
@@ -1252,37 +1258,37 @@ async def kggalid(client, message):
     photo = await gen_bot(client, bot_username, bot_id)        
     if await johned(client, message):
      return
-    await message.reply_photo(photo=photo, caption=f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• اوامــر البــوت الرئيسيـة\n• ( م1 ) ← اوامر الحمايه\n• ( م2 ) ← اوامر التسليه\n• ( م3 ) ← اوامر المطور\n\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("م1", callback_data="hemayazombie"), InlineKeyboardButton("م2", callback_data="taslyaxombie")],[InlineKeyboardButton("م3", callback_data="owneerzombie")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")],[InlineKeyboardButton("ᴀᴅᴅ ᴍᴇ", url=f"https://t.me/{bot_username}?startgroup=tru")]]))       
+    await message.reply_photo(photo=photo, caption=f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• اوامــر البــوت الرئيسيـة\n• ( م1 ) ← اوامر الحمايه\n• ( م2 ) ← اوامر التسليه\n• ( م3 ) ← اوامر المطور\n\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("م1", callback_data="hemayazombie"), InlineKeyboardButton("م2", callback_data="taslyaxombie")],[InlineKeyboardButton("م3", callback_data="owneerzombie")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")],[InlineKeyboardButton("ᴀᴅᴅ ᴍᴇ", url=f"https://t.me/{bot_username}?startgroup=tru")]]))       
        
 @Client.on_callback_query(filters.regex("hemayazombie"))
 async def hema1(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• اوامــر الحمايه\n• قفل وفتح ← الروابط\n• قفل وفتح ← الدردشه\n• قفل وفتح ← المنشن\n• قفل وفتح ← الفيديو\n• قفل وفتح ← الصور\n• قفل وفتح ← الملصقات\n• قفل وفتح ← الردود\n• قفل وفتح ← التاك\n  • تفعيل وتعطيل ← سمسمي\n• همسه ← عن طريق ريبلاي\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n• رفع مشرف ← مع تحديد الصلاحيات\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")]]))
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• اوامــر الحمايه\n• قفل وفتح ← الروابط\n• قفل وفتح ← الدردشه\n• قفل وفتح ← المنشن\n• قفل وفتح ← الفيديو\n• قفل وفتح ← الصور\n• قفل وفتح ← الملصقات\n• قفل وفتح ← الردود\n• قفل وفتح ← التاك\n  • تفعيل وتعطيل ← سمسمي\n• همسه ← عن طريق ريبلاي\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n• رفع مشرف ← مع تحديد الصلاحيات\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")]]))
 
 @Client.on_callback_query(filters.regex("taslyaxombie"))
 async def taslyaxombi3e(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• اوامر الرفع ←رفع قرد ، رفع نمله ..الخ\n• لعبه البنك← لعرض اوامر البنك ارسل `البنك`\n• اعلام ، الاسرع ، مشاهير ، معاني\n• ابراج ، افلام ، اغاني ، احرف\n• افتارات بنات ، افتارات شباب ، انمي\n• حجر ورقه مقص\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")]]))
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• اوامر الرفع ←رفع قرد ، رفع نمله ..الخ\n• لعبه البنك← لعرض اوامر البنك ارسل `البنك`\n• اعلام ، الاسرع ، مشاهير ، معاني\n• ابراج ، افلام ، اغاني ، احرف\n• افتارات بنات ، افتارات شباب ، انمي\n• حجر ورقه مقص\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")]]))
        
 @Client.on_callback_query(filters.regex("owneerzombie"))
 async def owneerzom4bie(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• جلب ورفع نسخه\n• رفع و تنزيل ادمن\n• الاحصائيات\n• اذاعه بجميع انواعها\n• نقل ملكيه البوت\n• معلومات السيرفر\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")]]))
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• جلب ورفع نسخه\n• رفع و تنزيل ادمن\n• الاحصائيات\n• اذاعه بجميع انواعها\n• نقل ملكيه البوت\n• معلومات السيرفر\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")]]))
 
 @Client.on_callback_query(filters.regex("groupszombie"))
 async def group5szombie(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")]])) 
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• تفعيل وتعطيل ← جمالي ، ايدي ، تاك\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("𝙱𝙰𝙲𝙺", callback_data="backkkkk")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")]])) 
         
 @Client.on_callback_query(filters.regex("backkkkk"))
 async def enzom54ddbie(client, callback_query: CallbackQuery):
     bot_username = client.me.username
     soesh = devchannel.get(bot_username) if devchannel.get(bot_username) else f"{source}"
-    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗\n• اوامــر البــوت الرئيسيـة\n• ( م1 ) ← اوامر الحمايه\n• ( م2 ) ← اوامر التسليه\n• ( م3 ) ← اوامر المطور\n• ( م4 ) ← اوامر الرفع\n⋖⊶◎⊷⌯[ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("م1", callback_data="hemayazombie"), InlineKeyboardButton("م2", callback_data="taslyaxombie")],[InlineKeyboardButton("م3", callback_data="owneerzombie"), InlineKeyboardButton("م4", callback_data="taslyaxmbie")],[InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}")],[InlineKeyboardButton("ᴀᴅᴅ ᴍᴇ", url=f"https://t.me/{bot_username}?startgroup=tru")]]))
+    await callback_query.edit_message_text(f"""⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗\n• اوامــر البــوت الرئيسيـة\n• ( م1 ) ← اوامر الحمايه\n• ( م2 ) ← اوامر التسليه\n• ( م3 ) ← اوامر المطور\n• ( م4 ) ← اوامر الرفع\n⋖⊶◎⊷⌯[𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh})⌯⊶◎⊷⋗""", reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("م1", callback_data="hemayazombie"), InlineKeyboardButton("م2", callback_data="taslyaxombie")],[InlineKeyboardButton("م3", callback_data="owneerzombie"), InlineKeyboardButton("م4", callback_data="taslyaxmbie")],[InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}")],[InlineKeyboardButton("ᴀᴅᴅ ᴍᴇ", url=f"https://t.me/{bot_username}?startgroup=tru")]]))
       
      
 @Client.on_message(filters.command(["سورس","السورس","يا سورس","قناة","قناه","《السورس》"], ""))
@@ -1297,26 +1303,26 @@ async def caesar_bot(client, message):
     keyboard = InlineKeyboardMarkup(
         [
             [
-                InlineKeyboardButton("ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ", url=f"{soesh}"),
-                InlineKeyboardButton("ᘜᖇ᥆υρ ᥉᥆υᖇᥴᥱ", url=f"{gr}"),
+                InlineKeyboardButton("𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱", url=f"{soesh}"),
+                InlineKeyboardButton("𝗠𝘆 𝗚𝗥𝗢𝗨𝗣", url=f"{gr}"),
             ],
             [
-                 InlineKeyboardButton("ժᥱ᥎ ᥉᥆υᖇᥴᥱ", url=f"https://t.me/{devus}")
+                 InlineKeyboardButton("𝗗𝗲𝗩 𝗦𝗼𝗨𝗿𝗖𝗲", url=f"https://t.me/{devus}")
             ],
             [ 
-                 InlineKeyboardButton("ᥲ️ժժ ƚ𝗁ᥱ Ⴆ᥆ƚ ƚ᥆ Y᥆υᖇ ᘜᖇ᥆υρ", url=f"https://t.me/{bot_username}?startgroup=tru")
+                 InlineKeyboardButton("اضغط لاضافت البوت الي جروبك", url=f"https://t.me/{bot_username}?startgroup=tru")
             ]
         ]
     )
 
     await message.reply_photo(
-        caption=f"**╭── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | اليك اسرع سورس ميوزك\n⌁ | وافضل سورس حمايه\n⌁ | واقوي سورس منع تصفيه\n⌁ | ويحتوي علي جميع الرتب\n\n╰── : [ᥴ𝗁ᥲ️ꪀꪀᥱᥣ ᥉᥆υᖇᥴᥱ]({soesh}) : ──╯**", 
+        caption=f"**╭── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╮\n\n⌁ | مرحبا بك {message.from_user.mention}\n⌁ | اليك اسرع سورس ميوزك\n⌁ | وافضل سورس حمايه\n⌁ | واقوي سورس منع تصفيه\n⌁ | ويحتوي علي جميع الرتب\n\n╰── : [𝗧𝗲𝗠 𝗔𝗹𝗤𝗮𝗜𝗱]({soesh}) : ──╯**", 
         photo=ff,
         reply_markup=keyboard
     )
 
 
-@Client.on_message(filters.command(["المطور", "مطور البوت"], ""))
+@Client.on_message(filters.command(["المطور", "مطور البوت", "صاحب البوت"], ""))
 async def deev(client, message):
     bot_username = client.me.username
     OWNER_ID = await get_dev(bot_username)
@@ -1346,7 +1352,7 @@ async def deev(client, message):
     except:
        pass    
 
-@Client.on_message(filters.command(["مطور السورس"], ""))
+@Client.on_message(filters.command(["مطور السورس", "مرعب", "محمود", "مودي", "مبرمج", "المبرمج"], ""))
 async def dev(client, message):
     bot_username = client.me.username
     if await johned(client, message):
@@ -1414,3 +1420,46 @@ async def upper_backup(client, msg):
                     chat_id = int(line)
                     add_user(chat_id, bot_id)                    
                 await msg.reply("تم رفع نسخه الاشخاص بنجاح ✨♥")
+
+@Client.on_message(filters.new_chat_members, group=7130)
+async def welcome(client, message):
+    bot_username = client.me.username
+    x = []
+    async for m in client.get_chat_members(message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+        if m.status == ChatMemberStatus.OWNER:
+            x.append(m.user.id)
+    if len(x) != 0:        
+        m = await client.get_users(int(x[0]))
+        chatid = message.chat.id
+        photo = await client.download_media(message.chat.photo.big_file_id)
+        await client.send_photo(
+            chatid, 
+            photo=photo, 
+            caption=f"- نورت ياا قمر 🌗😘🤝️ {message.from_user.mention}\n│ \n└ʙʏ في {message.chat.title}",     
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("مـالـك الـجـروب⚡", url=f"https://t.me/{m.username}")], 
+                [InlineKeyboardButton("خدني لجروبك والنبي🥺♥", url=f"https://t.me/{bot_username}?startgroup=new")]
+            ]))
+            
+@Client.on_chat_join_request()
+async def handle_join_request(client, request):
+    group_id = request.chat.id
+    user_id = request.from_user.id
+    user_username = request.from_user.username
+    user_mention = request.from_user.mention
+    bot_username = client.me.username
+    x = []
+    async for m in client.get_chat_members(group_id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+        if m.status == ChatMemberStatus.OWNER:
+            x.append(m.user.id)
+    if len(x) != 0:        
+        m = await client.get_users(int(x[0]))
+        photo = await client.download_media(request.chat.photo.big_file_id)
+        await client.send_photo(
+            group_id, 
+            photo=photo, 
+            caption=f"- نورت ياا قمر 🌗😘🤝️ {user_mention}\n│ \n└ʙʏ في {request.chat.title}",     
+            reply_markup=InlineKeyboardMarkup([
+                [InlineKeyboardButton("مـالـك الـجـروب⚡", url=f"https://t.me/{m.username}")], 
+                [InlineKeyboardButton("خدني لجروبك والنبي🥺♥", url=f"https://t.me/{bot_username}?startgroup=new")]
+            ]))     

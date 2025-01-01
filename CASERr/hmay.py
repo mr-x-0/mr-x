@@ -1338,7 +1338,7 @@ async def get_restr_users(client, message):
      count = len(restricted_users)
      user_ids = [str(user.id) for user in restricted_users]
      response = f"⌔ قائمة المقيدين وعددهم : {count}\n"
-     response += "⋖⊶◎⊷⌯𝚂𝙾𝚄𝚁𝙲𝙴 𝙲𝙰𝙴𝚂𝙰𝚁⌯⊶◎⊷⋗\n"
+     response += "⋖⊶◎⊷⌯𝗦𝗢𝗨𝗥𝗖𝗘 𝗔𝗟𝗤𝗔𝗜𝗗⌯⊶◎⊷⋗\n"
      response += "\n".join(user_ids)
      await message.reply_text(response)       
 
@@ -1479,7 +1479,7 @@ async def get_restricted_users(client, message):
     count = len(banned_users)
     user_ids = [str(user) for user in banned_users]
     response = f"⌔ قائمة المحظورين وعددهم : {count}\n"
-    response += "⋖⊶◎⊷⌯𝚂𝙾𝚄𝚁𝙲𝙴 𝙲𝙰𝙴𝚂𝙰𝚁⌯⊶◎⊷⋗\n"
+    response += "⋖⊶◎⊷⌯𝗦𝗢𝗨𝗥𝗖𝗘 𝗔𝗟𝗤𝗔𝗜𝗗⌯⊶◎⊷⋗\n"
     response += "\n".join(user_ids)
     await message.reply_text(response)
 
@@ -1680,7 +1680,7 @@ async def get_rmuted_users(client, message):
         count = len(muted_users[chat_id])
         user_mentions = [str(user) for user in muted_users[chat_id]]
         response = f"⌔ قائمة المكتومين وعددهم : {count}\n"
-        response += "⋖⊶◎⊷⌯𝚂𝙾𝚄𝚁𝙲𝙴 𝙲𝙰𝙴𝚂??𝚁⌯⊶◎⊷⋗\n"
+        response += "⋖⊶◎⊷⌯𝗦𝗢𝗨𝗥𝗖𝗘 𝗔𝗟𝗤𝗔𝗜𝗗⌯⊶◎⊷⋗\n"
         response += "\n".join(user_mentions)
         await message.reply_text(response)
     else:
