@@ -96,10 +96,6 @@ async def me(client, message):
    if off:
     if not message.from_user.username in DEVS and not message.from_user.username in DEVSs:
      return await message.reply_text("**المجاني مغلق من قبل المبرمج @C_lMK**")
-   try:
-      await client.get_chat_member(ch, message.from_user.id)
-   except:
-      return await message.reply_text(f"يجب ان تشترك ف قناة السورس أولا \n https://t.me/{ch}")
    message.continue_propagation()
 
 welcome_enabled = True
