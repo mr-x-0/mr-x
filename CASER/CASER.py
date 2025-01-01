@@ -93,14 +93,20 @@ CASER = []
 off =None
 @app.on_message(filters.private)
 async def me(client, message):
-   if off:
-    if not message.from_user.username in DEVS and not message.from_user.username in DEVSs:
-     return await message.reply_text("الصانع معطل تواصل مع المطور")
-   try:
-      await client.get_chat_member(ch, message.from_user.id)
-   except:
-      return await message.reply_text(f"يجب ان تشترك ف قناة السورس أولا \n https://t.me/{ch}")
-   message.continue_propagation()
+    if off:
+        if message.from_user.username not in DEVS and message.from_user.username not in DEVSs:
+            return await message.reply_text("الصانع معطل تواصل مع المطور")
+    
+    try:
+        # تحقق من اشتراك المستخدم في القناة
+        member = await client.get_chat_member(ch, message.from_user.id)
+        if member.status not in ["member", "administrator", "creator"]:
+            raise Exception("User not a member")
+    except Exception as e:
+        # الرد برسالة إذا لم يتم التحقق من الاشتراك
+        return await message.reply_text(f"يجب أن تشترك في قناة السورس أولاً \nhttps://t.me/{ch}")
+    
+    message.continue_propagation()
 
 welcome_enabled = True
 
