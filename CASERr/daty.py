@@ -13,15 +13,9 @@ from bot import bot_id
 API_ID = int("21627756")
 API_HASH = "fe77fbf0cae9f7f5ece37659e2466cf1"
 
-import redis
-
 r = redis.Redis(
-    host='redis-12470.c325.us-east-1-4.ec2.redns.redis-cloud.com',
-    port=12470,
-    password="T6skap2jHYZumHLHDVYcC6kIjjkv423F",
-)
-
-
+    host="127.0.0.1",
+    port=6379,)
 
 def add_Bots(bots):
     if is_Bots(bots):
@@ -90,20 +84,6 @@ async def get_userbot(bot_username):
      return userbot
   return userbot
 
-async def del_userbot(bot_username):
-    if bot_username in user:
-        del user[bot_username]
-        print(f"تم حذف {bot_username} بنجاح.")
-    else:
-        print(f"{bot_username} غير موجود في التخزين.")
-  
-async def del_call(bot_username):
-    if bot_username in call:
-        del call[bot_username]
-        print(f"تم حذف {bot_username} بنجاح.")
-    else:
-        print(f"{bot_username} غير موجود في التخزين.")
-  
 async def get_call(bot_username):
   calll = call.get(bot_username)
   if not calll:

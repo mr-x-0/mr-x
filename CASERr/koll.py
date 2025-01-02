@@ -4,7 +4,7 @@ import pyrogram
 from typing import Optional
 from pyrogram import Client, enums, filters
 import pyrogram
-from pyrogram import Client
+from pyrogram import Client as client
 import asyncio
 from pyrogram import Client, idle
 from random import randint
@@ -42,7 +42,7 @@ async def ghsdh_user(client, message):
      await hoss.join_group_call(message.chat.id, AudioPiped("./CASER.mp3"), stream_type=StreamType().pulse_stream)
      text="😎🥰 الاشخاص المتواجدين في الكول:\n\n"
      participants = await hoss.get_participants(message.chat.id)
-     k = 0
+     k =0
      for participant in participants:
       info = participant
       if info.muted == False:
@@ -52,6 +52,7 @@ async def ghsdh_user(client, message):
       user = await client.get_users(participant.user_id)
       k +=1
       text +=f"{k}➤{user.mention}➤{mut}\n"
+      text += f"\nعددهم : {len(participants)}\n✔️"    
      await hh.edit_text(f"{text}")
      await hoss.leave_group_call(message.chat.id)
     except NoActiveGroupCall:
@@ -61,7 +62,7 @@ async def ghsdh_user(client, message):
     except AlreadyJoinedError:
      text="😎🥰 الاشخاص المتواجدين في الكول:\n\n"
      participants = await hoss.get_participants(message.chat.id)
-     k = 0
+     k =0
      for participant in participants:
       info = participant
       if info.muted == False:
@@ -71,6 +72,7 @@ async def ghsdh_user(client, message):
       user = await client.get_users(participant.user_id)
       k +=1
       text +=f"{k}➤{user.mention}➤{mut}\n"
+      text += f"\nعددهم : {len(participants)}\n✔️"    
       await hh.edit_text(f"{text}")
       
 async def get_group_call(

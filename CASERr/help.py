@@ -225,13 +225,7 @@ async def cast5(client: Client, message):
                     fd += 1
                     continue
      return await message.reply_text(f"**تمت الاذاعه بنجاح ..**\n\n**تمت الاذاعه الي : {dn}**\n**وفشل : {fd}**")
+     
+     
 
-@Client.on_message(filters.command(["حذف"], ""), group=5676417)
-async def arejg6574ply(client, message):
-    bot_username = client.me.username
-    user = await get_userbot(bot_username)
-    chat_id = message.chat.id  
-    text = int(message.text.split(None, 1)[1])
-    async for h in user.get_chat_history(message.chat.id, limit=text):
-        await client.delete_messages(chat_id, h.id)
-    await client.send_message(chat_id, f"تم حذف {text} رسالة بنجاح.")     
+     
