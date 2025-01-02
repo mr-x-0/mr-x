@@ -1,25 +1,38 @@
 {
-    "name": "🔱 𝐙𝐄 🔱",
-    "description": "User bot for telegram !",
-    "stack": "container",
-    "logo": "https://telegra.ph/file/bd0fde82d09f7681afc99.jpg",
-    "repository": "https://github.com/modymesourceze/collect",
+    "name": "🔱 𝐒𝐎𝐔𝐑𝐂𝐄 𝐙𝐄 🔱",
+    "description": "A Telegram Music Player Bot, written in Python with Pyrogram and Py-Tgcalls.",
+    "logo": "https://telegra.ph/file/41a777f089288f7ad2571.jpg",
     "keywords": [
-        "python",
-        "chatbot",
-        "telegrambot"
+    "python3",
+    "telegram",
+    "bot",
+    "AnonX",
+    "MusicBot",
+    "telegram-bot",
+    "pyrogram"
     ],
-    "website": "https://github.com/modymesourceze/collect",
     "env": {
-        "OWNER_ID": {
-            "description": "ايـدي الـمـطور",
-            "value": "6929438980",
-            "required": true
-        },
-        "TOKEN": {
-            "description": "توكن البوت",
-            "value": "7798131575:AAEWkCDzfBPhPbGI8XuYd0MEH47_hJj0mTA",
-            "required": true
-    }
+      "API_ID": {
+        "description": "Get this value from https://my.telegram.org",
+        "value": "",
+        "required": true
+      },
+      "LOGGER_ID": {
+        "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Channel ki id mat daal dena bsdk.",
+        "value": "",
+        "required": true
+      }
+    },
+    "buildpacks": [
+          {
+              "url": "heroku/python"
+          },
+          {
+              "url": "heroku/nodejs"
+          },
+          {
+              "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+          }
+      ],
+      "stack": "container"
   }
-} 
